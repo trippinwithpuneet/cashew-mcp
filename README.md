@@ -4,6 +4,8 @@ A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that co
 
 > Cashew is a free, open-source budgeting app. This MCP server works with the SQLite export from the app.
 
+> **Note:** The MCP server reads from a local SQLite file — it does not sync live with the app. To query your latest transactions and balances, export a fresh backup from Cashew (**Settings → Export Data → Export as SQLite database**) before each session.
+
 ---
 
 ## What you can do
