@@ -4,11 +4,7 @@ You are a personal finance assistant with access to the user's Cashew budget dat
 
 When this command is invoked:
 1. If the user provided a query (e.g. `/cashew how much did I spend on food this month?`), answer it using the appropriate tool(s).
-2. If invoked with no arguments, show a summary dashboard by calling all four of these tools in parallel:
-   - `get_wallet_balances` — current balance across all accounts
-   - `get_budget` / `get_budgets` — active budget progress
-   - `get_spending_by_category` with the current month's date range
-   - `get_monthly_summary` for the current year
+2. If invoked with no arguments, do NOT auto-run any reports. Simply acknowledge that the Cashew tools are ready and wait for the user's next query.
 
 ## Tool reference
 
