@@ -1,0 +1,131 @@
+# cashew-mcp
+
+A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that connects to your local [Cashew](https://github.com/jameskokoska/Cashew) budget app database and lets you query your finances directly from Claude.
+
+> Cashew is a free, open-source budgeting app. This MCP server works with the SQLite export from the app.
+
+---
+
+## What you can do
+
+Ask Claude things like:
+
+- "How much have I spent this month?"
+- "Show my top spending categories in 2025"
+- "Am I over budget?"
+- "Search for Swiggy transactions"
+- "What's my current bank balance?"
+
+Or just type `/cashew` for a full financial dashboard.
+
+---
+
+## Requirements
+
+- [Claude Code](https://claude.ai/code) (CLI or desktop app)
+- [uv](https://github.com/astral-sh/uv) (Python package manager)
+- The Cashew app with a SQLite export saved to `~/Downloads/cashew.sqlite`
+
+---
+
+## Setup
+
+### 1. Export your Cashew database
+
+In the Cashew app:  
+**Settings → Export Data → Export as SQLite database**
+
+Save it to `~/Downloads/cashew.sqlite` (the default location).
+
+### 2. Install uv
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### 3. Clone this repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/cashew-mcp.git
+cd cashew-mcp
+```
+
+### 4. Register the MCP server with Claude Code
+
+```bash
+claude mcp add cashew -- uv run --project $(pwd) cashew-mcp
+```
+
+Or with an explicit path:
+
+```bash
+claude mcp add cashew -- uv run --project /full/path/to/cashew-mcp cashew-mcp
+```
+
+### 5. Install the `/cashew` slash command
+
+```bash
+mkdir -p ~/.claude/commands
+cp .claude/commands/cashew.md ~/.claude/commands/cashew.md
+```
+
+### 6. Restart Claude Code and test
+
+Type `/cashew` in Claude Code. You should see a dashboard with your balances, budgets, and this month's spending.
+
+---
+
+## Available tools
+
+| Tool | What it does |
+|------|-------------|
+| `get_transactions` | Fetch transactions with filters: date range, category, wallet, type |
+| `get_spending_by_category` | Total spending grouped by category for any period |
+| `get_budgets` | Budget list with amount spent, remaining, and % used |
+| `get_wallet_balances` | Current balance, total income, and total expenses per account |
+| `search_transactions` | Full-text search across transaction names and notes |
+| `get_monthly_summary` | Month-by-month income vs expenses |
+
+---
+
+## Custom database path
+
+If your Cashew export is somewhere other than `~/Downloads/cashew.sqlite`, set the `CASHEW_DB` environment variable when registering the server:
+
+```bash
+claude mcp add cashew -- uv run --project /path/to/cashew-mcp cashew-mcp
+# then edit ~/.claude.json to add: "env": { "CASHEW_DB": "/your/path/cashew.sqlite" }
+```
+
+Or export it in your shell before launching Claude Code:
+
+```bash
+export CASHEW_DB=/custom/path/to/cashew.sqlite
+```
+
+---
+
+## Using the `/cashew` command
+
+| Invocation | What happens |
+|---|---|
+| `/cashew` | Full dashboard: balances, budgets, this month's spending by category |
+| `/cashew how much did I spend on food this month?` | Answers the specific question |
+| `/cashew search swiggy` | Searches transactions by name |
+| `/cashew show monthly summary for 2025` | Year overview |
+
+---
+
+## Compatibility
+
+Tested with the Android and iOS versions of Cashew. The SQLite schema here matches the app as of May 2025. If you hit issues, please open a GitHub issue with the output of:
+
+```bash
+sqlite3 ~/Downloads/cashew.sqlite ".schema"
+```
+
+---
+
+## License
+
+MIT

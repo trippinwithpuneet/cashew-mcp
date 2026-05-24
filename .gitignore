@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+
+# Database — never commit personal financial data
+*.sqlite
+*.sqlite3
+*.db
+
+# Env overrides
+.env
+
+# Claude Code local settings (contains machine-specific paths)
+.claude/settings.local.json

@@ -1,0 +1,16 @@
+[project]
+name = "cashew-mcp"
+version = "0.1.0"
+description = "MCP server for querying the Cashew Budget app SQLite database"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.0.0",
+]
+
+[project.scripts]
+cashew-mcp = "cashew_mcp:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
